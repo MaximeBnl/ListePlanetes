@@ -2,6 +2,7 @@ package com.example.listeplanetes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.os.Bundle;
@@ -33,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         datas = new Data();
-        listview = (ListView) findViewById(R.id.listView);
+        listview = (ListView) findViewById(R.id.listview);
         adapter = new PlaneteAdapter(datas.getPlanetesName(),MainActivity.this);
         listview.setAdapter(adapter);
 
         verifier = (Button) findViewById(R.id.verifier_btn);
         verifier.setOnClickListener(verifierListener);
+        verifier.setEnabled(false);
 
 
 
@@ -51,13 +53,9 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < datas.getPlanetesName().size(); i++) {
                 // View x = (View) listview.getAdapter().getView(0,null,listview);
                 View x = (View) listview.getChildAt(i);
-                CheckBox cb = (CheckBox) x.findViewById(R.id.checkbox);
                 Spinner sp = (Spinner) x.findViewById(R.id.spinner);
 
-                if (!cb.isChecked()) {
-                    popUp("Certaines cases n'ont pas été cochées");
-                    return;
-                } else if (!sp.getSelectedItem().toString().equals(datas.getPlanetesSize()[i])) {
+                if (!sp.getSelectedItem().toString().equals(datas.getPlanetesSize()[i])) {
                     popUp("Vous n'avez pas les bonnes associations");
                     return;
                 }
